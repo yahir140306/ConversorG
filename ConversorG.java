@@ -1,148 +1,136 @@
-import java.awt.*;
 import java.awt.event.*;
 import java.util.Hashtable;
-
 import javax.swing.*;
 
-public class ConversorG extends JFrame implements ActionListener{
+public class ConversorG extends JFrame implements ActionListener {
 
-    private JComboBox GRUPO1, GRUPO2 , GRUPO3;
-    private JComboBox datos1 , datos2 , datos3 , datos4 , datos5, datos6 , datos7;
+    private JComboBox<String> GRUPO1, GRUPO2, GRUPO3;
     private JButton BOTON;
     private JTextField textField1, textField2;
-    private Hashtable subItems = new Hashtable();
+    private Hashtable<String, String[]> subItems = new Hashtable<>();
 
-    public ConversorG(){
-// diseño del JPaanel
+    public ConversorG() {
+        // Diseño del JFrame
         setTitle("Conversor De Unidades - 3EV - :)");
         setLayout(null);
 
         JLabel INDICACION = new JLabel("Escoja La Unidad Que Quiera Convertir");
-        INDICACION.setBounds(125 , 10 , 250 , 30);
+        INDICACION.setBounds(125, 10, 250, 30);
         add(INDICACION);
 
         textField1 = new JTextField();
-        textField1.setBounds(50 , 100 , 100 , 30);
+        textField1.setBounds(50, 100, 100, 30);
         add(textField1);
 
-        JLabel ingrese = new JLabel("INGRESE : ");
-        ingrese.setBounds(65 , 125 , 100 , 30);
+        JLabel ingrese = new JLabel("INGRESE:");
+        ingrese.setBounds(65, 125, 100, 30);
         add(ingrese);
 
         textField2 = new JTextField();
-        textField2.setBounds(300 , 100 , 100 , 30);
+        textField2.setBounds(300, 100, 100, 30);
+        textField2.setEditable(false); // Solo lectura
         add(textField2);
 
-        JLabel resultado = new JLabel("RESULTADO : ");
-        resultado.setBounds(310 , 125 , 100 , 30);
+        JLabel resultado = new JLabel("RESULTADO:");
+        resultado.setBounds(310, 125, 100, 30);
         add(resultado);
 
         BOTON = new JButton("Convertir");
-        BOTON.setBounds(165 , 220 , 100 , 30);
+        BOTON.setBounds(165, 220, 100, 30);
         add(BOTON);
         BOTON.addActionListener(this);
 
-// principal combo
-        String [] datos = {"Longitud" , "Superficie" , "Volumen" , "U de Presion" , "Energia" , "Macro. Energeticas" , "Potencia" };
-        
-        GRUPO1 = new JComboBox(datos);
-        GRUPO1.setBounds(150 , 50 , 150 , 30);
+        // Grupo principal de unidades
+        String[] datos = { "Longitud", "Superficie", "Volumen", "U de Presion", "Energia", "Macro. Energeticas",
+                "Potencia" };
+        GRUPO1 = new JComboBox<>(datos);
+        GRUPO1.setBounds(150, 50, 150, 30);
         add(GRUPO1);
         GRUPO1.addActionListener(this);
 
-// combo de la izquierda
-        GRUPO2 = new JComboBox<String>();
-        GRUPO2.setBounds(10 , 175 , 160 , 30);
+        // ComboBox de unidades de conversión
+        GRUPO2 = new JComboBox<>();
+        GRUPO2.setBounds(10, 175, 160, 30);
         add(GRUPO2);
-        GRUPO2.addActionListener(this);
 
-// combo de la derecha
-        GRUPO3 = new JComboBox<String>();
-        GRUPO3.setBounds(250 , 175 , 160 , 30);
+        GRUPO3 = new JComboBox<>();
+        GRUPO3.setBounds(250, 175, 160, 30);
         add(GRUPO3);
-        GRUPO3.addActionListener(this);
 
-// al escojer cierta opcion:
+        // Definir subcategorías de conversión
+        subItems.put("Longitud", new String[] { "Metro", "Milímetro", "Pulgada", "Pie", "Yarda", "Milla" });
+        subItems.put("Superficie", new String[] { "Metro cuadrado", "Hectárea", "Pulgada cuadrada", "Pie cuadrado","Yarda cuadrada", "Acre" });
+        subItems.put("Volumen", new String[] { "Metro Cubico - m3", "Litro - dm3", "Pie Cubico - ft3","Galon USA - gal", "Galon Imperial GB - gal", "Barril De Petroleo - bbl (oil)" });
+        subItems.put("U de Presion", new String[] { "Kilo Pascal", "Atmosfera tecnica", "Milímetro de c. Hg","Metro de c. agua", "Libras por pulgada", "Bar" });
+        subItems.put("Energia",new String[] { "Kilojulio", "kw/hora", "Horse power/hora", "Caballo/hora", "Kilocaloria", "British" });
+        subItems.put("Macro. Energeticas", new String[] { "Opción 1", "Opción 2" });
+        subItems.put("Potencia", new String[] { "Opción 3", "Opción 4" });
 
-// 0 Longitud
-        String [] datos1 = {"Metro","Milimetro","Pulgada","Pie","Yarda","Milla"};
-        subItems.put(datos[0], datos1);
-        
-// 1 Superficie
-        String [] datos2 = {"Metro cuadrado", "Hectarea", "Pulgada cuadrada", "Pie cuadrado", "Yarda cuadrada", "Acre"};
-        subItems.put(datos[1], datos2);
-// 2 Volumen       
-        String [] datos3 = {"Metro Cubico - m3", "Litro - dm3", "Pie Cubico - ft3", "Galon USA - gal", "Galon Imperial GB - gal", "Barril De Petroleo - bbl (oil)"};
-        subItems.put(datos[2], datos3);
-// 3 Unidades de presion       
-        String [] datos4 = {"Kilo Pascal", "Atmosfera tecnica", "milimetro de c. Hg", "Metro de c. agua", "Libras por pulgada", "Bar"};
-        subItems.put(datos[3], datos4);
-// 4 Energia   
-        String [] datos5 = {"Kilojulio", "kw/hora", "Hourse power/hora", "Caballo/hora", "Kilocaloria", "British"};
-        subItems.put(datos[4], datos5);
-// 5 Macro. Energeticas
-        String [] datos6 = {"nose"};
-        subItems.put(datos[5], datos6);
-// 6 Potencia
-        String [] datos7 = {"nose1"};
-        subItems.put(datos[6], datos7);
-
+        // Inicializar ComboBoxes con la primera categoría
+        actualizarCombos(datos[0]);
     }
 
-    public void actionPerformed (ActionEvent e ){
-// al escojer cierto valor de los arrays        
-        String box1 = (String) GRUPO2.getSelectedItem();
-        String box2 = (String) GRUPO3.getSelectedItem();
-        
-        if (e.getSource()== BOTON) {
-            if (box1.equals("Metro Cubico - m3") && box2.equals("Litro - dm3")) {
-                double ans = Double.parseDouble(textField1.getText());
-                double res = ans * 1000;
-                textField2.setText(String.valueOf(String.format("%.4f", res)));
-            }
-            if (box1.equals("Metro Cubico - m3") && box2.equals("Pie Cubico - ft3")) {
-                double ans = Double.parseDouble(textField1.getText());
-                double res = ans * 35.31;
-                textField2.setText(String.valueOf(String.format("%.4f", res)));
-        
-            }
-            if (box1.equals("Metro Cubico - m3") && box2.equals("Galon USA - gal")) {
-                double ans = Double.parseDouble(textField1.getText());
-                double res = ans * 264.17;
-                textField2.setText(String.valueOf(String.format("%.4f", res)));
-            }
-            if (box1.equals("Metro Cubico - m3") && box2.equals("Galon Imperial GB - gal")) {
-                double ans = Double.parseDouble(textField1.getText());
-                double res = ans * 219.96;
-                textField2.setText(String.valueOf(String.format("%.4f", res)));
-            }
-            if (box1.equals("Metro Cubico - m3") && box2.equals("Barril De Petroleo - bbl (oil)")) {
-                double ans = Double.parseDouble(textField1.getText());
-                double res = ans * 6.28;
-                textField2.setText(String.valueOf(String.format("%.4f", res)));
-            }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == GRUPO1) {
+            actualizarCombos((String) GRUPO1.getSelectedItem());
         }
 
-            // el evento del principal comobo ...
-            String datos = (String) GRUPO1.getSelectedItem();
-            Object o = subItems.get( datos );
-            if (o == null) {
-                GRUPO2.setModel( new DefaultComboBoxModel<>());
-                GRUPO3.setModel( new DefaultComboBoxModel<>());
-            } 
-            else {
-                GRUPO2.setModel( new DefaultComboBoxModel<>( (String[])o) );
-                GRUPO3.setModel( new DefaultComboBoxModel<>( (String[])o) );
-            }
-        
-
+        if (e.getSource() == BOTON) {
+            realizarConversion();
+        }
     }
+
+    private void actualizarCombos(String categoria) {
+        String[] items = subItems.get(categoria);
+        if (items != null) {
+            GRUPO2.setModel(new DefaultComboBoxModel<>(items));
+            GRUPO3.setModel(new DefaultComboBoxModel<>(items));
+        } else {
+            GRUPO2.setModel(new DefaultComboBoxModel<>(new String[] {}));
+            GRUPO3.setModel(new DefaultComboBoxModel<>(new String[] {}));
+        }
+    }
+
+    private void realizarConversion() {
+        String box1 = (String) GRUPO2.getSelectedItem();
+        String box2 = (String) GRUPO3.getSelectedItem();
+
+        if (box1 == null || box2 == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione una unidad válida", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            double valor = Double.parseDouble(textField1.getText());
+            double resultado = 0;
+
+            if (box1.equals("Metro Cubico - m3") && box2.equals("Litro - dm3")) {
+                resultado = valor * 1000;
+            } else if (box1.equals("Metro Cubico - m3") && box2.equals("Pie Cubico - ft3")) {
+                resultado = valor * 35.31;
+            } else if (box1.equals("Metro Cubico - m3") && box2.equals("Galon USA - gal")) {
+                resultado = valor * 264.17;
+            } else if (box1.equals("Metro Cubico - m3") && box2.equals("Galon Imperial GB - gal")) {
+                resultado = valor * 219.96;
+            } else if (box1.equals("Metro Cubico - m3") && box2.equals("Barril De Petroleo - bbl (oil)")) {
+                resultado = valor * 6.28;
+            } else {
+                JOptionPane.showMessageDialog(this, "Conversión no soportada", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            textField2.setText(String.format("%.4f", resultado));
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Ingrese un valor numérico válido", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public static void main(String[] args) {
         ConversorG ventana = new ConversorG();
-        ventana.setBounds(500 , 100 , 450 , 450);
+        ventana.setBounds(500, 100, 450, 450);
         ventana.setVisible(true);
         ventana.setResizable(false);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
 }
